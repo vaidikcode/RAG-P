@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: rag_mysql
+    env_file:
+      - .env.docker
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - rag_network
+
+  rag_python:
+    build:
+      context: ./RAG
+      dockerfile: Dockerfile
+    container_name: rag_python
+    env_file:
+      - .env.docker
+    environment:
+      - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
+    ports:
+      - "8080:8080"
+    networks:
+      - rag_network
+    depends_on:
+      - mysql
+
+  rag_backend:
+    build:
+      context: ./RAG_backend
+      dockerfile: Dockerfile
+    container_name: rag_backend
+    env_file:
+      - .env.docker
+    environment:
+      - DB_DSN=${DB_DSN}
+      - PYTHON_SERVICE_URL=${PYTHON_SERVICE_URL}
+    ports:
+      - "8090:8090"
+    networks:
+      - rag_network
+    depends_on:
+      - mysql
+      - rag_python
+
+  rag_frontend:
+    build:
+      context: ./RAG_frontend
+      dockerfile: Dockerfile
+    container_name: rag_frontend
+    env_file:
+      - .env.docker
+    environment:
+      - REACT_APP_API_URL=${REACT_APP_API_URL}
+    ports:
+      - "3000:3000"
+    networks:
+      - rag_network
+    depends_on:
+      - rag_backend
+
+volumes:
+  mysql_data:
+
+networks:
+  rag_network:
+    driver: bridge

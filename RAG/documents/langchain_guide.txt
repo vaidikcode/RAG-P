@@ -1,0 +1,30 @@
+LangChain is a powerful framework designed for developing applications powered by language models. It provides a comprehensive set of tools and abstractions that make it easier to build complex applications that leverage the capabilities of large language models (LLMs).
+
+Core Components of LangChain:
+
+Document Loaders: These components are responsible for loading data from various sources such as PDFs, web pages, databases, and text files. LangChain supports numerous document loaders out of the box.
+
+Text Splitters: These tools break down large documents into smaller, manageable chunks that can be processed by language models. Different splitters handle various document types and splitting strategies.
+
+Embeddings: LangChain integrates with various embedding models to convert text into vector representations. These embeddings are crucial for similarity search and retrieval operations.
+
+Vector Stores: These components store and index document embeddings, enabling efficient similarity search. LangChain supports multiple vector databases like Chroma, Pinecone, and FAISS.
+
+Retrievers: These components implement various retrieval strategies to find relevant documents based on user queries. They work with vector stores to perform similarity searches.
+
+Chains: Chains combine multiple components to create complex workflows. They allow you to link together prompts, language models, and other components to build sophisticated applications.
+
+Agents: Agents are autonomous entities that can use tools and make decisions based on user input. They can interact with external APIs, databases, and other services.
+
+Memory: LangChain provides various memory implementations to maintain conversation history and context across multiple interactions.
+
+LangGraph is an extension of LangChain that provides a graph-based approach to building AI applications. It allows developers to create complex workflows using a visual graph structure, making it easier to understand and maintain complex AI pipelines.
+
+RAG (Retrieval-Augmented Generation) is a popular pattern implemented using LangChain. RAG combines information retrieval with text generation, allowing language models to access external knowledge and provide more accurate, up-to-date responses.
+
+The typical RAG workflow involves:
+1. Indexing: Load documents, split them into chunks, create embeddings, and store in a vector database
+2. Retrieval: Search for relevant documents based on user queries
+3. Generation: Use retrieved context to generate responses with the language model
+
+LangChain makes implementing RAG applications straightforward with its modular architecture and extensive library of pre-built components.
